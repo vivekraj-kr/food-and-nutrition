@@ -12,16 +12,30 @@ module.exports = {
   },
   mode: 'development',
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: ["@babel/preset-env", "@babel/preset-react"]
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"]
+          }
         }
+      },
+      {
+        test: /\.txt$/,
+        type: 'asset/source'
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader']
       }
-    }]
+    ]
   },
   devServer: {
     port: 9000,
