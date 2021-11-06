@@ -1,8 +1,15 @@
 import React from 'react';
 import './App.scss';
+import Header from './Header';
+import CreateMealPlan from './CreateMealPlan';
 
 const App = () => {
-  return (<h1> Hello I have started again!</h1>);
+  return (
+    <>
+      <Header/>
+      <CreateMealPlan />
+    </>
+  );
 }
 
 export default App;
