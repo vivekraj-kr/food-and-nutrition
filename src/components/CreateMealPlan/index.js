@@ -1,34 +1,29 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import generateMealPlan from './actions';
 
 const CreateMealPlan = () => {
-  const [mealPlan, setMealPlan] = useState();
+  //const [mealPlan, setMealPlan] = useState();
+  const mealPlan = useSelector((state) => state.generateMeal)
+  const isRender = Object.getOwnPropertyNames(mealPlan).length !== 0;
+
+  console.log(`mealPlan ${mealPlan}`);
+
+  const dispatch = useDispatch();
+
   const [timeFrame, setTimeFrame] = useState('');
   const [targetCalories, setTargetCalories] = useState('');
   const [diet, setDiet] = useState('');
   const [exclude, setExclude] = useState('');
 
-  const onGenerateMealPlan = (e) => {
-    console.log(e);
+  const onHandleSubmit = (e) => {
     e.preventDefault();
-    const options = {
-      method: 'GET',
-      url: 'https://api.spoonacular.com/mealplanner/generate',
-      params: {
-        timeFrame,
-        targetCalories,
-        diet,
-        exclude,
-        apiKey: 'eaf032e063404cb084746b77ec4bcf43'
-      }
-    };
-    
-    axios.request(options).then((response) => {
-      console.log(response.data);
-      setMealPlan(response.data);
-    }).catch((error) => {
-      console.error(error);
-    });
+    dispatch(generateMealPlan({
+      timeFrame,
+      targetCalories,
+      diet,
+      exclude
+    }))
   }
 
   const MealsConatiner = () => {
@@ -60,11 +55,11 @@ const CreateMealPlan = () => {
             <label> Exclude </label>
             <input type='text' onChange={(e) => {setExclude(e.target.value)}} value={exclude} name='exclude' />
           </div>
-          <button type='submit' onClick={onGenerateMealPlan} > Generate </button>
+          <button type='submit' onClick={onHandleSubmit} > Generate </button>
         </form>
       </section>
       <section>
-        {mealPlan 
+        {isRender 
         ?
           <MealsConatiner />
         :
